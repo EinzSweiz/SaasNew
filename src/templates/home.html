@@ -3,9 +3,13 @@
 {{ title }}
 {% endblock %}
 {% block content %}
+{% if not request.user.is_authenticated %}
 <h1>
      {{ request.user }}
      {{ request.method }}
 </h1>
+{% else %}
+{% include 'snippets/welcome_message.html' %}
+{% endif %}
     <li>Page Visit: {{ count  }}</li>
 {% endblock %}
