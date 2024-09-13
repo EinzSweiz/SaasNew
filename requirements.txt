@@ -1,3 +1,3 @@
 Django>=5.0,<5.1
-decouple
+python-decouple
 gunicorn
