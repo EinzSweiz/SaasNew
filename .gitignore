@@ -1,7 +1,4 @@
 #Vendors css js 
-celery.py
-tasks.py
-send_test_email.py
 src/staticfiles/vendors
 src/local-cdn/
 # Byte-compiled / optimized / DLL files
