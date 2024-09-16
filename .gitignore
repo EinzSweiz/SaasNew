@@ -1,6 +1,7 @@
 #Vendors css js 
 src/staticfiles/vendors
 src/local-cdn/
+docker-compose.yml
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -45,12 +45,14 @@ if all([ADMIN_USER_NAME, ADMIN_USER_EMAIL]):
 print(ADMINS)
 
 # Celery Configuration
-CELERY_BROKER_URL = 'amqp://guest:guest@rabbit:5672//'
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
 CELERY_RESULT_BACKEND = 'rpc://'  # Хранилище результатов задач (опционально)
 CELERY_ACCEPT_CONTENT = ['json']  # Форматы данных, которые Celery может принимать
 CELERY_TASK_SERIALIZER = 'json'  # Формат, в котором будут сериализоваться задачи
 CELERY_RESULT_SERIALIZER = 'json'  # Формат, в котором будут сериализоваться результаты
 CELERY_TIMEZONE = 'UTC'  # Временная зона
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
  
@@ -67,7 +69,8 @@ ALLOWED_HOSTS = [
 if DEBUG:
     ALLOWED_HOSTS += [
         'localhost',
-        '127.0.0.1'
+        '127.0.0.1',
+        'localhost:8001'
     ]
 
 # Application definition
@@ -82,7 +85,15 @@ INSTALLED_APPS = [
     #my apps
     'visits.apps.VisitsConfig',
     'commando.apps.CommandoConfig',
-
+    #installed apps
+    "allauth_ui",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    "widget_tweaks",
+    "slippers",
 ]
 
 MIDDLEWARE = [
@@ -94,6 +105,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'cfehome.urls'
@@ -158,6 +170,47 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#Django Allauth config
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[CFE]"
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ALLAUTH_UI_THEME = "dark"
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '910255563272-7dfuta3a73658u534iib9g4f972jnukl.apps.googleusercontent.com',
+            'secret': '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'
+        },
+        'SCOPE': ['profile', 'email', ],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+        'OAUTH_PKCE_ENABLED': True,
+    },
+    'github': {
+        'APP': {
+            'client_id':'Iv23liP55UuD7xdIkwvE',
+            'secret':'74b7957728eb68dc256f194682577f066934ef0f',
+        },
+        "VERIFIED_EMAIL": True
+    }
+}
+
+SOCIALACCOUNT_LOGIN_ON_GET=True
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

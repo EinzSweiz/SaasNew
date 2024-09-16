@@ -6,3 +6,8 @@ dj-database-url
 requests
 whitenoise
 celery
+flower
+django-allauth[socialaccount]
+django-allauth-ui
+django-widget-tweaks
+slippers
