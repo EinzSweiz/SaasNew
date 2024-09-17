@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'subscriptions.apps.SubscriptionsConfig',
     'customers.apps.CustomersConfig',
+    'checkouts.apps.CheckoutsConfig',
     #installed apps
     "allauth_ui",
     'allauth',

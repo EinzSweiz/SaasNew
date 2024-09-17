@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import Group, Permission
 from django.conf import settings
 from django.db.models.signals import post_save
+from django.urls import reverse
 import helpers
 import helpers.billing
 
@@ -70,6 +71,9 @@ class SubscriptionPrice(models.Model):
 
     class Meta:
         ordering = ['subscription__order', 'order', 'featured', '-price']
+
+    def get_checkout_urls(self):
+        return reverse("checkouts:sub_price_checkout", kwargs={'price_id':self.id})
 
     @property
     def stripe_currency(self):
