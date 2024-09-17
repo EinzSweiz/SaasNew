@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     'commando.apps.CommandoConfig',
     'profiles.apps.ProfilesConfig',
     'subscriptions.apps.SubscriptionsConfig',
+    'customers.apps.CustomersConfig',
     #installed apps
     "allauth_ui",
     'allauth',
@@ -249,8 +250,7 @@ STORAGES = {
     },
 }
 
-
-    
+  
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
