@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from auth import urls as auth_urls
 from profiles import urls as profile_urls
+from subscriptions import urls as subscriptions_urls
 from . import views
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     path('protected/user-only/', views.user_only_view, name='user_only'),
     path('protected/staff-only/', views.staff_only_view , name='staff_only'),
     path('profiles/', include(profile_urls, namespace='profiles')),
+    path('subscriptions/', include(subscriptions_urls, namespace='subscriptions'))
 
 ]
