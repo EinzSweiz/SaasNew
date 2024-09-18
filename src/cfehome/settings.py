@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 from decouple import config
@@ -45,12 +45,8 @@ if all([ADMIN_USER_NAME, ADMIN_USER_EMAIL]):
 print(ADMINS)
 
 # Celery Configuration
-CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
-CELERY_RESULT_BACKEND = 'rpc://'  # Хранилище результатов задач (опционально)
-CELERY_ACCEPT_CONTENT = ['json']  # Форматы данных, которые Celery может принимать
-CELERY_TASK_SERIALIZER = 'json'  # Формат, в котором будут сериализоваться задачи
-CELERY_RESULT_SERIALIZER = 'json'  # Формат, в котором будут сериализоваться результаты
-CELERY_TIMEZONE = 'UTC'  # Временная зона
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER', 'redis://redis:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_BACKEND', 'redis://redis:6379/0')
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 # Quick-start development settings - unsuitable for production
@@ -61,7 +57,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', cast=bool, default=False)
-
+BASE_URL=config('BASE_URL', default=None)
 ALLOWED_HOSTS = [
     ".railway.app"
 ]
